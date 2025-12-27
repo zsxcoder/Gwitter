@@ -12,7 +12,7 @@ export const createAuthenticatedApi = (token: string) => {
 };
 
 export const api = createAuthenticatedApi(
-  config.request.token.replaceAll('?', ''),
+  config.request.token,
 );
 
 interface GetIssuesQLParams {
