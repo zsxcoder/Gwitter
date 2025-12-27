@@ -6,13 +6,7 @@ import { pluginReact } from '@rsbuild/plugin-react';
 
 // 加载 .env 文件
 const envPath = resolve(process.cwd(), '.env');
-const envResult = dotenvConfig({ path: envPath });
-
-  console.log('=== Environment Variables Debug ===');
-  console.log('.env path:', envPath);
-  console.log('.env loaded:', envResult.error ? 'ERROR' : 'SUCCESS');
-  console.log('GITHUB_TOKEN:', process.env.GITHUB_TOKEN ? '***FOUND***' : 'NOT FOUND');
-  console.log('================================');
+dotenvConfig({ path: envPath });
 
 export default defineConfig({
   html: {

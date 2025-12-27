@@ -1,14 +1,15 @@
 import { motion } from 'framer-motion';
-import { ReactNode } from 'react';
+import { ReactNode, forwardRef } from 'react';
 
 interface AnimatedCardProps {
   children: ReactNode;
   id: string;
 }
 
-const AnimatedCard = ({ children, id }: AnimatedCardProps) => {
+const AnimatedCard = forwardRef<HTMLDivElement, AnimatedCardProps>(({ children, id }, ref) => {
   return (
     <motion.div
+      ref={ref}
       key={id}
       initial={{
         opacity: 0,
@@ -39,6 +40,8 @@ const AnimatedCard = ({ children, id }: AnimatedCardProps) => {
       {children}
     </motion.div>
   );
-};
+});
+
+AnimatedCard.displayName = 'AnimatedCard';
 
 export default AnimatedCard;

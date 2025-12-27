@@ -422,16 +422,16 @@ const App = () => {
           <IssuesContainer>
             <AnimatePresence mode="popLayout">
               {issues.map((issue, index) => (
-                <AnimatedCard key={issue.id} id={issue.id}>
-                  <div
-                    ref={index === issues.length - 1 ? lastIssueRef : undefined}
-                  >
-                    <Issue
-                      issue={issue}
-                      repoOwner={currentRepo.owner}
-                      repoName={currentRepo.repo}
-                    />
-                  </div>
+                <AnimatedCard
+                  key={issue.id}
+                  id={issue.id}
+                  ref={index === issues.length - 1 ? lastIssueRef : undefined}
+                >
+                  <Issue
+                    issue={issue}
+                    repoOwner={currentRepo.owner}
+                    repoName={currentRepo.repo}
+                  />
                 </AnimatedCard>
               ))}
             </AnimatePresence>

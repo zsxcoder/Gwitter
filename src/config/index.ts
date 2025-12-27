@@ -1,12 +1,23 @@
 import { GwitterConfig } from '../types/global';
 
-const { GITHUB_TOKEN = '', GITHUB_CLIENT_ID = '', GITHUB_CLIENT_SECRET = '' } = import.meta.env || {};
+// 动态读取环境变量
+const getEnv = () => ({
+  GITHUB_TOKEN: (import.meta.env as any).GITHUB_TOKEN || '',
+  GITHUB_CLIENT_ID: (import.meta.env as any).GITHUB_CLIENT_ID || '',
+  GITHUB_CLIENT_SECRET: (import.meta.env as any).GITHUB_CLIENT_SECRET || '',
+});
 
 let config = {
   request: {
-    token: GITHUB_TOKEN,
-    clientID: GITHUB_CLIENT_ID,
-    clientSecret: GITHUB_CLIENT_SECRET,
+    get token() {
+      return getEnv().GITHUB_TOKEN;
+    },
+    get clientID() {
+      return getEnv().GITHUB_CLIENT_ID;
+    },
+    get clientSecret() {
+      return getEnv().GITHUB_CLIENT_SECRET;
+    },
     pageSize: 6,
     autoProxy:
       'https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token',
