@@ -25,5 +25,5 @@ export default [
       ...reactHooks.configs.recommended.rules,
     },
   },
-  { ignores: ['dist/'] },
+  { ignores: ['dist/', '*.config.mjs', '*.config.js'] },
 ];
