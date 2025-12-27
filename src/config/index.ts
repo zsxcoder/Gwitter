@@ -28,7 +28,7 @@ let config = {
   app: {
     onlyShowOwner: true,
     enableRepoSwitcher: true,
-    enableAbout: false,
+    enableAbout: true,
     enableEgg: false,
   },
 };
