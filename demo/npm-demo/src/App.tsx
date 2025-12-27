@@ -87,7 +87,7 @@ function App() {
       <footer className="App-footer">
         <div className="footer-links">
           <a
-            href="https://github.com/SimonAKing/Gwitter"
+            href="https://github.com/zsxcoder/Gwitter"
             target="_blank"
             rel="noopener noreferrer"
           >

@@ -27,7 +27,7 @@ export const config: GwitterConfig = {
     pageSize: 6,
     autoProxy:
       'https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token',
-    owner: 'SimonAKing',
+    owner: 'zsxcoder',
     repo: 'weibo',
   },
   app: {
