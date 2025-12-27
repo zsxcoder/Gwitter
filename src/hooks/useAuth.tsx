@@ -7,7 +7,7 @@ import {
 } from 'react';
 import config from '../config';
 import { queryStringify, windowOpen } from '../utils';
-import { getUserInfo } from '../utils/request';
+import { getAccessToken, getUserInfo } from '../utils/request';
 
 interface AuthContextType {
   isAuthenticated: boolean;
@@ -51,17 +51,23 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const handleAuthCallback = async (code: string) => {
     setIsLoading(true);
     try {
-      const response = await getUserInfo(code);
+      // 使用 code 换取 access_token
+      const tokenResponse = await getAccessToken(code);
+      console.log('Access token response:', tokenResponse);
+
+      // 使用 access_token 获取用户信息
+      const response = await getUserInfo(tokenResponse.access_token || tokenResponse);
       const user = {
         login: response.login,
         avatarUrl: response.avatar_url,
       };
 
-      setToken(code);
+      const accessToken = tokenResponse.access_token || tokenResponse;
+      setToken(accessToken);
       setUser(user);
       setIsAuthenticated(true);
 
-      localStorage.setItem('github_token', code);
+      localStorage.setItem('github_token', accessToken);
       localStorage.setItem('github_user', JSON.stringify(user));
     } catch (error) {
       console.error('Auth callback error:', error);
@@ -81,8 +87,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const loginLink = `${githubOauthUrl}?${queryStringify(query)}`;
     setIsLoading(true);
     windowOpen(loginLink)
-      .then((token: unknown) => {
-        handleAuthCallback(token as string);
+      .then((tokenOrCode: unknown) => {
+        handleAuthCallback(tokenOrCode as string);
       })
       .catch((error) => {
         console.error('Login error:', error);
