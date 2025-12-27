@@ -12,9 +12,9 @@
 4. 添加以下三个变量：
 
 ```
-VITE_GITHUB_TOKEN=ghp_你的token
-VITE_GITHUB_CLIENT_ID=你的client_id
-VITE_GITHUB_CLIENT_SECRET=你的client_secret
+GITHUB_TOKEN=ghp_你的token
+GITHUB_CLIENT_ID=你的client_id
+GITHUB_CLIENT_SECRET=你的client_secret
 ```
 
 5. 选择 **Production**, **Preview**, **Development** 三个环境都勾选

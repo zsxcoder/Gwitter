@@ -8,11 +8,11 @@ import { pluginReact } from '@rsbuild/plugin-react';
 const envPath = resolve(process.cwd(), '.env');
 const envResult = dotenvConfig({ path: envPath });
 
-console.log('=== Environment Variables Debug ===');
-console.log('.env path:', envPath);
-console.log('.env loaded:', envResult.error ? 'ERROR' : 'SUCCESS');
-console.log('VITE_GITHUB_TOKEN:', process.env.VITE_GITHUB_TOKEN ? '***FOUND***' : 'NOT FOUND');
-console.log('================================');
+  console.log('=== Environment Variables Debug ===');
+  console.log('.env path:', envPath);
+  console.log('.env loaded:', envResult.error ? 'ERROR' : 'SUCCESS');
+  console.log('GITHUB_TOKEN:', process.env.GITHUB_TOKEN ? '***FOUND***' : 'NOT FOUND');
+  console.log('================================');
 
 export default defineConfig({
   html: {
@@ -20,9 +20,9 @@ export default defineConfig({
   },
   source: {
     define: {
-      'import.meta.env.VITE_GITHUB_TOKEN': JSON.stringify(process.env.VITE_GITHUB_TOKEN || ''),
-      'import.meta.env.VITE_GITHUB_CLIENT_ID': JSON.stringify(process.env.VITE_GITHUB_CLIENT_ID || ''),
-      'import.meta.env.VITE_GITHUB_CLIENT_SECRET': JSON.stringify(process.env.VITE_GITHUB_CLIENT_SECRET || ''),
+      'import.meta.env.GITHUB_TOKEN': JSON.stringify(process.env.GITHUB_TOKEN || ''),
+      'import.meta.env.GITHUB_CLIENT_ID': JSON.stringify(process.env.GITHUB_CLIENT_ID || ''),
+      'import.meta.env.GITHUB_CLIENT_SECRET': JSON.stringify(process.env.GITHUB_CLIENT_SECRET || ''),
     },
   },
   plugins: [pluginReact(), pluginLess()],

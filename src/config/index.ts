@@ -1,12 +1,12 @@
 import { GwitterConfig } from '../types/global';
 
-const { VITE_GITHUB_TOKEN = '', VITE_GITHUB_CLIENT_ID = '', VITE_GITHUB_CLIENT_SECRET = '' } = import.meta.env || {};
+const { GITHUB_TOKEN = '', GITHUB_CLIENT_ID = '', GITHUB_CLIENT_SECRET = '' } = import.meta.env || {};
 
 let config = {
   request: {
-    token: VITE_GITHUB_TOKEN,
-    clientID: VITE_GITHUB_CLIENT_ID,
-    clientSecret: VITE_GITHUB_CLIENT_SECRET,
+    token: GITHUB_TOKEN,
+    clientID: GITHUB_CLIENT_ID,
+    clientSecret: GITHUB_CLIENT_SECRET,
     pageSize: 6,
     autoProxy:
       'https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token',
