@@ -70,7 +70,7 @@ const GitHubLink = styled.a`
   transition: color 0.2s ease;
 
   &:hover {
-    color: #132850;
+    color: var(--primary);
   }
 
   @media (max-width: 479px) {
@@ -89,13 +89,13 @@ const IssueTitle = styled.div`
   font-size: 0.9em;
   font-weight: 500;
   line-height: 1.3;
-  color: #6b7280;
+  color: var(--text-secondary);
   word-wrap: break-word;
   word-break: break-word;
-  background: #f8fafc;
+  background: var(--background-secondary);
   padding: 0.4em 0.6em;
   border-radius: 4px;
-  border-left: 3px solid #e5e7eb;
+  border-left: 3px solid var(--border);
 
   @media (max-width: 479px) {
     font-size: 0.85em;

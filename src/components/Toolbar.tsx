@@ -152,7 +152,7 @@ const UserAvatar = styled.img`
 const UserName = styled.span`
   font-size: 12px;
   font-weight: 500;
-  color: #14171a;
+  color: var(--text);
 `;
 
 const LoadingSpinner = styled.div`
