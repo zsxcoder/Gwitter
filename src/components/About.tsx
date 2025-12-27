@@ -17,18 +17,18 @@ type AboutProps = {
   repo: string;
 };
 
-const summaryColor = 'rgb(167, 167, 167)';
+const summaryColor = 'var(--text-secondary)';
 
 const AboutContainer = styled.div`
   user-select: none;
   padding: 16px 20px;
   transition: all 0.25s ease;
   border-radius: 10px;
-  background: hsla(0, 0%, 100%, 0.6);
+  background: var(--card);
   font-size: 1em;
   letter-spacing: 1px;
-  border: 0.5px solid #f1f1f1;
-  box-shadow: 0 0.1em 0.2em 0 rgba(234, 234, 234, 0.8);
+  border: 1px solid var(--border);
+  box-shadow: 0 0.1em 0.2em 0 var(--shadow);
   margin: 6px;
   margin-bottom: 1em;
 
@@ -41,8 +41,8 @@ const AboutContainer = styled.div`
   }
 
   code {
-    background: rgba(232, 125, 143, 0.1);
-    color: #e96384;
+    background: rgba(232, 125, 143, 0.15);
+    color: var(--error);
   }
 
   summary {
@@ -59,8 +59,8 @@ const AboutContainer = styled.div`
   }
 
   a {
-    color: #8f63e9;
-    box-shadow: inset 0 -3px #cfbcf5;
+    color: var(--primary);
+    box-shadow: inset 0 -3px rgba(143, 99, 233, 0.3);
     font-weight: 700;
     text-decoration: none;
     transition: 0.2s;
@@ -68,8 +68,8 @@ const AboutContainer = styled.div`
 
   a:hover,
   a:focus {
-    box-shadow: inset 0 -1.2em #8f63e9;
-    color: #f8f5fe;
+    box-shadow: inset 0 -1.2em var(--primary);
+    color: var(--background);
   }
 
   p {
@@ -101,7 +101,7 @@ const AboutContainer = styled.div`
   }
 
   [type='checkbox'] + label {
-    background: #efe7fd;
+    background: var(--card-secondary);
     border-left: 4px solid ${summaryColor};
     cursor: pointer;
     display: block;
@@ -135,12 +135,12 @@ const AboutContainer = styled.div`
   }
 
   .container {
-    box-shadow: 0.2em 1em 2em -1em #d6d1e0;
+    box-shadow: 0.2em 1em 2em -1em var(--shadow);
     margin: 2.4em 0;
   }
 
   details {
-    border-bottom: 2px solid #d6d1e0;
+    border-bottom: 2px solid var(--border);
     list-style: none;
   }
 
@@ -150,7 +150,7 @@ const AboutContainer = styled.div`
     padding: 1em;
 
     &:hover {
-      background-color: #f0f0f0;
+      background-color: var(--hover);
     }
   }
 
@@ -168,12 +168,17 @@ const AboutContainer = styled.div`
     margin-top: 0.25em;
     transform: rotate(45deg);
     transition: inherit;
+    border-color: ${summaryColor};
   }
 
   [open] summary {
-    background: ${summaryColor};
-    color: #fff;
+    background: var(--primary);
+    color: var(--background);
     font-size: 1.15em;
+  }
+
+  [open] summary::after {
+    border-color: var(--background);
   }
 
   [open] summary::after {
@@ -288,14 +293,14 @@ const About = ({ owner, repo }: AboutProps) => {
               <li>
                 <code>{t('about.subscription.watch')}</code>&nbsp;
                 <a
-                  href="https://github.com/SimonAKing/weibo"
+                  href="https://github.com/zsxcoder/weibo"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   {t('about.subscription.repo')}
                 </a>
               </li>
-              <li>
+              {/* <li>
                 <code>{t('about.subscription.join')}</code>&nbsp;
                 <a
                   href="https://thinking.simonaking.com/#ru-kou"
@@ -304,11 +309,11 @@ const About = ({ owner, repo }: AboutProps) => {
                 >
                   {t('about.subscription.wechat')}
                 </a>
-              </li>
+              </li> */}
               <li>
                 <code>{t('about.subscription.join')}</code>&nbsp;
                 <a
-                  href="https://t.me/Simon_AKing"
+                  href="https://t.me/kemiaofx_me"
                   target="_blank"
                   rel="noopener noreferrer"
                 >

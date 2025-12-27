@@ -10,14 +10,12 @@ const ToolbarContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 12px 20px;
-  background: hsla(0, 0%, 100%, 0.8);
-
+  background: var(--card);
   border-radius: 10px;
-  border: 1px solid #e1e8ed;
+  border: 1px solid var(--border);
   margin-bottom: 16px;
   backdrop-filter: blur(10px);
-  box-shadow: 0 0.1em 0.2em 0 rgba(234, 234, 234, 0.8);
-  border: 0.5px solid #f1f1f1;
+  box-shadow: 0 0.1em 0.2em 0 var(--shadow);
   margin: 6px;
   margin-bottom: 1em;
 
@@ -44,22 +42,22 @@ const RepoInputContainer = styled.div`
 
 const RepoInput = styled.input`
   padding: 6px 10px;
-  border: 1px solid #e1e8ed;
+  border: 1px solid var(--input-border);
   border-radius: 16px;
   font-size: 12px;
-  background: rgba(255, 255, 255, 0.9);
-  color: #14171a;
+  background: var(--input);
+  color: var(--text);
   width: 180px;
   transition: all 0.2s;
 
   &:focus {
     outline: none;
-    border-color: #1da1f2;
-    box-shadow: 0 0 0 2px rgba(29, 161, 242, 0.1);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(143, 99, 233, 0.1);
   }
 
   &::placeholder {
-    color: #657786;
+    color: var(--placeholder);
   }
 
   @media (max-width: 768px) {
@@ -70,13 +68,13 @@ const RepoInput = styled.input`
 
 const RepoLabel = styled.span`
   font-size: 12px;
-  color: #657786;
+  color: var(--text-secondary);
   font-weight: 500;
 `;
 
 const ApplyButton = styled.button`
-  background: #1da1f2;
-  color: white;
+  background: var(--primary);
+  color: var(--background);
   border: none;
   padding: 6px 12px;
   border-radius: 16px;
@@ -86,7 +84,7 @@ const ApplyButton = styled.button`
   transition: all 0.2s;
 
   &:hover {
-    background: #1991db;
+    background: var(--primary-hover);
   }
 
   &:disabled {

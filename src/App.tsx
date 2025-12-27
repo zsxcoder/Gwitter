@@ -7,9 +7,11 @@ import Egg from './components/Egg';
 import Issue from './components/Issue';
 import SkeletonCard from './components/SkeletonCard';
 import Toolbar from './components/Toolbar';
+import FloatingControls from './components/ThemeSwitcher';
 import config from './config';
 
 import { AuthProvider, useAuth } from './hooks/useAuth';
+import { ThemeProvider } from './hooks/useTheme';
 import {
   getRepoFromUrl,
   ProcessedIssue,
@@ -21,6 +23,9 @@ import { api, getIssuesQL } from './utils/request';
 
 const Container = styled.div`
   box-sizing: border-box;
+  background-color: var(--background);
+  color: var(--text);
+  min-height: 100vh;
   * {
     box-sizing: border-box;
   }
@@ -472,15 +477,18 @@ const App = () => {
         </IssuesContainer>
       )}
       {config.app.enableEgg && !hasNextPage && !repoError && <Egg />}
+      <FloatingControls />
     </Container>
   );
 };
 
 const AppWithAuth = () => {
   return (
-    <AuthProvider>
-      <App />
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <App />
+      </AuthProvider>
+    </ThemeProvider>
   );
 };
 

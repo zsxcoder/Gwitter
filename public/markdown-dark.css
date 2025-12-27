@@ -1,0 +1,56 @@
+/* Dark mode overrides for GitHub Markdown */
+[data-theme='dark'] .markdown-body {
+  color: var(--text);
+  background-color: transparent;
+}
+
+[data-theme='dark'] .markdown-body h1,
+[data-theme='dark'] .markdown-body h2,
+[data-theme='dark'] .markdown-body h3,
+[data-theme='dark'] .markdown-body h4,
+[data-theme='dark'] .markdown-body h5,
+[data-theme='dark'] .markdown-body h6 {
+  color: var(--text);
+  border-bottom-color: var(--border);
+}
+
+[data-theme='dark'] .markdown-body a {
+  color: var(--primary);
+}
+
+[data-theme='dark'] .markdown-body blockquote {
+  color: var(--text-secondary);
+  border-left-color: var(--border);
+}
+
+[data-theme='dark'] .markdown-body code,
+[data-theme='dark'] .markdown-body pre {
+  background-color: var(--background-secondary);
+  border-color: var(--border);
+}
+
+[data-theme='dark'] .markdown-body hr {
+  background-color: var(--border);
+}
+
+[data-theme='dark'] .markdown-body table {
+  border-color: var(--border);
+}
+
+[data-theme='dark'] .markdown-body table th,
+[data-theme='dark'] .markdown-body table td {
+  border-color: var(--border);
+}
+
+[data-theme='dark'] .markdown-body table tr {
+  background-color: var(--card);
+  border-color: var(--border);
+}
+
+[data-theme='dark'] .markdown-body table tr:nth-child(2n) {
+  background-color: var(--background-secondary);
+}
+
+[data-theme='dark'] .markdown-body img {
+  background-color: transparent;
+}

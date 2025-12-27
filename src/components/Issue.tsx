@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import 'github-markdown-css/github-markdown-light.css';
 import { useTranslation } from 'react-i18next';
 import { formatDate, ProcessedIssue, processLinksInHTML } from '../utils';
 import Interaction from './Interaction';
@@ -15,7 +14,7 @@ import { Spotlight } from './common/Spotlight';
 const Username = styled.span`
   font-weight: 700;
   font-size: 15px;
-  color: #132850;
+  color: var(--text);
   text-decoration: none;
   cursor: pointer;
 `;
@@ -29,18 +28,14 @@ const VerifiedBadge = styled.span`
 const Badge = styled.svg`
   width: 20px;
   height: 20px;
-  color: rgb(29, 155, 240);
-  fill: rgb(29, 155, 240);
+  color: var(--primary);
+  fill: var(--primary);
 `;
 
 const Separator = styled.span`
   margin: 0 4px;
   font-weight: 600;
-  color: #a1a1a1;
-  text-shadow:
-    #d9d9d9 0 0 1px,
-    #fffffb 0 0 1px,
-    #fffffb 0 0 2px;
+  color: var(--text-secondary);
   font-size: 0.9em;
 
   @media (max-width: 479px) {
@@ -49,11 +44,7 @@ const Separator = styled.span`
 `;
 
 const DateText = styled.span`
-  color: #a1a1a1;
-  text-shadow:
-    #d9d9d9 0 0 1px,
-    #fffffb 0 0 1px,
-    #fffffb 0 0 2px;
+  color: var(--text-secondary);
   font-size: 0.9em;
 `;
 
@@ -74,7 +65,7 @@ const GitHubLink = styled.a`
   margin-left: 8px;
   display: inline-flex;
   align-items: center;
-  color: #a1a1a1;
+  color: var(--text-secondary);
   text-decoration: none;
   transition: color 0.2s ease;
 

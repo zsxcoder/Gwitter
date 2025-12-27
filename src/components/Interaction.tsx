@@ -12,11 +12,11 @@ import {
 import CommentList from './CommentList';
 
 const COLORS = {
-  primary: '#536471',
+  primary: 'var(--text-secondary)',
   like: '#f91880',
   comment: '#1d9bf0',
-  likeHover: 'rgba(249, 24, 128, 0.1)',
-  commentHover: 'rgba(29, 161, 242, 0.1)',
+  likeHover: 'rgba(249, 24, 128, 0.15)',
+  commentHover: 'rgba(29, 161, 242, 0.15)',
 } as const;
 
 const heartPop = keyframes`
