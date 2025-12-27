@@ -36,6 +36,91 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  // 打开弹窗进行 OAuth 授权
+  const openAuthPopup = () => {
+    const windowArea = {
+      width: Math.max(Math.floor(window.outerWidth * 0.4), 400),
+      height: Math.max(Math.floor(window.outerHeight * 0.4), 400),
+      left: Math.floor(window.screenX + (window.outerWidth - Math.max(Math.floor(window.outerWidth * 0.4), 400)) / 2),
+      top: Math.floor(window.screenY + (window.outerHeight - Math.max(Math.floor(window.outerHeight * 0.4), 400)) / 3),
+    };
+
+    const windowOpts = `toolbar=0,scrollbars=1,status=1,resizable=1,location=1,menuBar=0,width=${windowArea.width},height=${windowArea.height},left=${windowArea.left},top=${windowArea.top}`;
+
+    return new Promise<string>((resolve, reject) => {
+      // 创建一个内联 HTML 用于处理 OAuth 回调
+      const githubOauthUrl = 'https://github.com/login/oauth/authorize';
+      const query = {
+        client_id: config.request.clientID,
+        redirect_uri: `${window.location.origin}/callback.html`,
+        scope: 'public_repo',
+        state: JSON.stringify({
+          client_id: config.request.clientID,
+          client_secret: config.request.clientSecret,
+        }),
+      };
+      const loginLink = `${githubOauthUrl}?${queryStringify(query)}`;
+
+      const authWindow = window.open(loginLink, 'Gwitter OAuth Application', windowOpts);
+
+      if (!authWindow) {
+        reject(new Error('Failed to open authentication window'));
+        return;
+      }
+
+      // 监听消息
+      const handleMessage = (event: MessageEvent) => {
+        // 确保消息来自同一个源
+        if (event.origin !== window.location.origin) {
+          return;
+        }
+
+        try {
+          const { result, error } = JSON.parse(event.data);
+          
+          if (error) {
+            reject(new Error(error));
+          } else if (result) {
+            resolve(result);
+          }
+        } catch (err) {
+          // 忽略非 JSON 消息
+        }
+      };
+
+      window.addEventListener('message', handleMessage);
+
+      // 检查窗口是否关闭
+      const checkWindowClosed = setInterval(() => {
+        if (authWindow.closed) {
+          clearInterval(checkWindowClosed);
+          window.removeEventListener('message', handleMessage);
+          reject(new Error('Window closed by user'));
+        }
+      }, 500);
+
+      // 清理函数
+      const cleanup = () => {
+        clearInterval(checkWindowClosed);
+        window.removeEventListener('message', handleMessage);
+      };
+
+      // 如果成功，清理资源
+      const originalResolve = resolve;
+      const originalReject = reject;
+      
+      resolve = ((value: string) => {
+        cleanup();
+        originalResolve(value);
+      }) as any;
+      
+      reject = ((reason: any) => {
+        cleanup();
+        originalReject(reason);
+      }) as any;
+    });
+  };
+
   // 检查 URL 中是否有 code 参数（OAuth 回调）
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -99,17 +184,33 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  // 打开 GitHub 授权页面
-  const login = () => {
-    const githubOauthUrl = 'https://github.com/login/oauth/authorize';
-    const query = {
-      client_id: config.request.clientID,
-      redirect_uri: window.location.origin + window.location.pathname,
-      scope: 'public_repo',
-    };
-    const loginLink = `${githubOauthUrl}?${queryStringify(query)}`;
-    console.log('Redirecting to:', loginLink);
-    window.location.href = loginLink;
+  // 打开 GitHub 授权弹窗
+  const login = async () => {
+    try {
+      setIsLoading(true);
+      // 使用弹窗方式进行授权
+      const accessToken = await openAuthPopup();
+      
+      if (accessToken) {
+        // 使用 access_token 获取用户信息
+        const response = await getUserInfo(accessToken);
+        const user = {
+          login: response.login,
+          avatarUrl: response.avatar_url,
+        };
+
+        setToken(accessToken);
+        setUser(user);
+        setIsAuthenticated(true);
+
+        localStorage.setItem('github_token', accessToken);
+        localStorage.setItem('github_user', JSON.stringify(user));
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const logout = () => {
