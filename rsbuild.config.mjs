@@ -6,6 +6,13 @@ export default defineConfig({
   html: {
     template: './public/index.html',
   },
+  source: {
+    define: {
+      'import.meta.env.VITE_GITHUB_TOKEN': JSON.stringify(process.env.VITE_GITHUB_TOKEN || ''),
+      'import.meta.env.VITE_GITHUB_CLIENT_ID': JSON.stringify(process.env.VITE_GITHUB_CLIENT_ID || ''),
+      'import.meta.env.VITE_GITHUB_CLIENT_SECRET': JSON.stringify(process.env.VITE_GITHUB_CLIENT_SECRET || ''),
+    },
+  },
   plugins: [pluginReact(), pluginLess()],
   module: {
     rules: [
@@ -56,5 +63,15 @@ export default defineConfig({
   },
   output: {
     assetPrefix: '/',
+  },
+  tools: {
+    eslint: {
+      enable: true,
+      config: {
+        env: {
+          node: true,
+        },
+      },
+    },
   },
 });
