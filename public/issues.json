@@ -1,10 +1,228 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <title>Issues JSON API</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+      background: #0d1117;
+      color: #c9d1d9;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    
+    h1 {
+      color: #61dafb;
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      background: linear-gradient(90deg, #61dafb, #21d4fd);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .subtitle {
+      color: #a8bfc1;
+      font-size: 1.1em;
+      margin-bottom: 30px;
+    }
+    
+    .section {
+      background: #161b22;
+      border-radius: 12px;
+      padding: 30px;
+      margin-bottom: 30px;
+      border: 1px solid #2d3748;
+    }
+    
+    .section h2 {
+      color: #e94560;
+      font-size: 1.5em;
+      margin-bottom: 15px;
+    }
+    
+    code {
+      background: #374151;
+      color: #e94560;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9em;
+    }
+    
+    pre {
+      background: #0d1117;
+      border: 1px solid #2d3748;
+      border-radius: 8px;
+      padding: 20px;
+      overflow-x: auto;
+      color: #a5f3fc;
+      font-size: 0.9em;
+      line-height: 1.6;
+    }
+    
+    .code-inline {
+      display: block;
+      background: #374151;
+      color: #e94560;
+      padding: 15px;
+      border-radius: 6px;
+      margin: 15px 0;
+      font-size: 1em;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+    }
+    
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #2d3748;
+    }
+    
+    th {
+      color: #fbbf24;
+      font-weight: 600;
+    }
+    
+    tr:hover {
+      background: #1f2937;
+    }
+    
+    a {
+      color: #61dafb;
+      text-decoration: none;
+    }
+    
+    a:hover {
+      text-decoration: underline;
+    }
+    
+    .back-link {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 30px;
+      background: linear-gradient(135deg, #21d4fd, #5b21b6);
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 500;
+      transition: transform 0.2s;
+    }
+    
+    .back-link:hover {
+      transform: translateY(-2px);
+    }
+  </style>
 </head>
 <body>
+  <div class="container">
+    <h1>🚀 Gwitter Issues JSON API</h1>
+    <p class="subtitle">通过 API 接口获取 Gwitter 的 Issues 数据，方便在其他项目中使用</p>
+    
+    <div class="section">
+      <h2>📡 API 端点</h2>
+      <p>访问以下 URL 获取 Issues JSON 数据：</p>
+      <div class="code-inline">
+        <code>/issues.json?format=json</code>
+      </div>
+    </div>
+    
+    <div class="section">
+      <h2>📋 响应格式示例</h2>
+      <pre>{
+  "repository": "owner/repo",
+  "exportedAt": "2024-01-01T00:00:00.000Z",
+  "totalIssues": 10,
+  "issues": [
+    {
+      "id": "issue_id",
+      "number": 1,
+      "title": "Issue 标题",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "author": {
+        "login": "username",
+        "avatarUrl": "https://avatars.githubusercontent.com/...",
+        "url": "https://github.com/..."
+      },
+      "reactions": {
+        "totalCount": 5,
+        "userReacted": true,
+        "heartCount": 5
+      },
+      "comments": 3,
+      "label": {
+        "name": "label_name",
+        "color": "#ffffff"
+      },
+      "url": "https://github.com/..."
+    }
+  ]
+}</pre>
+    </div>
+    
+    <div class="section">
+      <h2>💡 使用方法</h2>
+      <table>
+        <tr>
+          <th>语言</th>
+          <th>代码</th>
+        </tr>
+        <tr>
+          <td>JavaScript (Fetch)</td>
+          <td><pre>fetch('/issues.json?format=json')
+  .then(res => res.text())
+  .then(jsonText => JSON.parse(jsonText))
+  .then(data => console.log(data));</pre></td>
+        </tr>
+        <tr>
+          <td>JavaScript (async/await)</td>
+          <td><pre>const response = await fetch('/issues.json?format=json');
+const jsonText = await response.text();
+const data = JSON.parse(jsonText);
+console.log(data);</pre></td>
+        </tr>
+        <tr>
+          <td>cURL</td>
+          <td><code>curl "/issues.json?format=json"</code></td>
+        </tr>
+      </table>
+    </div>
+    
+    <div class="section">
+      <h2>📝 数据更新</h2>
+      <p>API 接口从以下来源获取数据（按优先级）：</p>
+      <ol>
+        <li><strong>localStorage</strong> - 自动保存的最新数据（最高优先级）</li>
+        <li><strong>主页面</strong> - 如果在 Gwitter 主页加载过数据，会自动同步</li>
+      </ol>
+      <p>更新数据的方法：</p>
+      <ul>
+        <li>打开 Gwitter 主页，等待 Issues 加载完成</li>
+        <li>点击工具栏的 "JSON" 按钮，手动触发数据更新</li>
+      </ul>
+    </div>
+    
+    <a href="/" class="back-link">← 返回 Gwitter</a>
+  </div>
+
   <script>
     // 从 localStorage 或 postMessage 获取 issues 数据
     function getIssuesData() {
@@ -13,8 +231,12 @@
         const storedData = localStorage.getItem('gwitter_issues_data');
         if (storedData) {
           try {
-            resolve(JSON.parse(storedData));
-            return;
+            const parsedData = JSON.parse(storedData);
+            // 验证数据格式
+            if (parsedData && parsedData.issues && Array.isArray(parsedData.issues)) {
+              resolve(parsedData);
+              return;
+            }
           } catch (e) {
             console.error('Failed to parse stored data:', e);
           }
@@ -31,279 +253,55 @@
       });
     }
 
-    // 主逻辑
-    (async function() {
-      const urlParams = new URLSearchParams(window.location.search);
-      const format = urlParams.get('format');
+    // 检测是否是 JSON 请求
+    const urlParams = new URLSearchParams(window.location.search);
+    const format = urlParams.get('format');
 
-      // 如果请求 JSON 格式
-      if (format === 'json' || window.location.pathname.endsWith('.json')) {
-        const data = await getIssuesData();
-        
+    // 如果请求 JSON 格式或直接访问 .json 文件
+    if (format === 'json' || window.location.pathname.endsWith('.json')) {
+      getIssuesData().then(data => {
         if (data && data.issues && data.issues.length > 0) {
-          // 输出 JSON
-          document.body.style.display = 'none';
+          // 设置正确的 Content-Type（通过 meta 标签）
+          const meta = document.createElement('meta');
+          meta.setAttribute('http-equiv', 'Content-Type');
+          meta.setAttribute('content', 'application/json; charset=utf-8');
+          document.head.appendChild(meta);
+          
+          // 清空 body
+          document.body.innerHTML = '';
           
           // 创建 pre 标签显示 JSON
           const pre = document.createElement('pre');
-          pre.style.cssText = 'display:block;margin:0;padding:20px;font-family:monospace;font-size:14px;line-height:1.5;color:#333;word-wrap:break-word;white-space:pre-wrap;';
+          pre.style.cssText = 'margin:0;padding:20px;font-family:monospace;font-size:14px;line-height:1.5;color:#a5f3fc;background:#0d1117;word-wrap:break-word;white-space:pre-wrap;';
           pre.textContent = JSON.stringify(data, null, 2);
           document.body.appendChild(pre);
-          pre.style.display = 'block';
           
-          // 设置 document title 以便识别
+          // 设置 document title
           document.title = `Gwitter Issues - ${data.repository}`;
-          
-          // 尝试设置 Content-Type（在静态环境中可能不生效）
-          const meta = document.createElement('meta');
-          meta.setAttribute('http-equiv', 'Content-Type');
-          meta.setAttribute('content', 'application/json');
-          document.head.appendChild(meta);
         } else {
           // 无数据时显示提示
           document.body.innerHTML = `
-            <div style="display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:Arial,sans-serif;background:#f5f5f5;">
-              <div style="text-align:center;padding:40px;">
-                <h1 style="color:#333;margin-bottom:20px;">No Data Available</h1>
-                <p style="color:#666;line-height:1.6;">
-                  Please follow these steps to get Issues data:
-                </p>
-                <div style="background:#fff;padding:20px;border-radius:8px;margin:20px 0;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
-                  <ol style="text-align:left;line-height:1.8;color:#555;">
-                    <li>Open the main Gwitter page</li>
-                    <li>Wait for issues to load</li>
-                    <li>Then access this API endpoint</li>
-                    <li>Or click the "JSON" button in the toolbar</li>
-                  </ol>
-                </div>
-                <a href="/" style="display:inline-block;margin-top:20px;padding:10px 20px;background:#8f63e9;color:#fff;text-decoration:none;border-radius:5px;">Go to Gwitter Home</a>
+            <div class="container">
+              <h1 style="color:#fbbf24;text-align:center;">❌ No Data Available</h1>
+              <p class="subtitle" style="text-align:center;">请先打开 Gwitter 主页加载 Issues 数据</p>
+              <div class="section">
+                <p>请按以下步骤操作：</p>
+                <ol style="margin-left:20px;line-height:2;">
+                  <li>打开 Gwitter 主页</li>
+                  <li>等待 Issues 加载完成</li>
+                  <li>点击工具栏的 "JSON" 按钮</li>
+                  <li>重新访问此 API 接口</li>
+                </ol>
               </div>
+              <a href="/" class="back-link">← 返回 Gwitter</a>
             </div>
           `;
         }
-      } else {
-        // 显示使用说明
-        document.body.innerHTML = `
-          <div style="max-width:900px;margin:40px auto;padding:20px;font-family:Arial,sans-serif;">
-            <h1 style="color:#333;border-bottom:3px solid #8f63e9;padding-bottom:15px;margin-bottom:20px;">Gwitter Issues JSON API</h1>
-            
-            <div style="background:#e8f5e9;color:#fff;padding:15px;border-radius:5px;margin:20px 0;">
-              <strong>📌 Quick Start:</strong>
-              <p style="margin:10px 0;">访问此 API 接口获取 Issues 数据：</p>
-            </div>
-            
-            <div style="margin:30px 0;">
-              <h3 style="color:#8f63e9;">API Endpoint:</h3>
-              <div style="background:#f5f5f5;padding:15px;border-radius:5px;margin:10px 0;">
-                <code style="background:#e96384;color:#fff;padding:5px 12px;border-radius:3px;display:block;font-size:14px;">
-                  ${window.location.origin}/issues.json?format=json
-                </code>
-              </div>
-              
-              <h3 style="color:#8f63e9;margin-top:30px;">Response Format:</h3>
-              <pre style="background:#282c34;color:#abb2bf;padding:15px;border-radius:5px;overflow-x:auto;font-size:13px;line-height:1.6;">{
-  "repository": "owner/repo",
-  "exportedAt": "2024-01-01T00:00:00.000Z",
-  "totalIssues": 10,
-  "issues": [
-    {
-      "id": "issue_id",
-      "number": 1,
-      "title": "Issue 标题",
-      "createdAt": "2024-01-01T00:00:00.000Z",
-      "author": {
-        "login": "username",
-        "avatarUrl": "https://...",
-        "url": "https://..."
-      },
-      "reactions": {
-        "totalCount": 5,
-        "userReacted": true,
-        "heartCount": 5
-      },
-      "comments": 3,
-      "label": {
-        "name": "label_name",
-        "color": "#ffffff"
-      },
-      "url": "https://github.com/..."
+      });
+    } else {
+      // 显示使用说明（默认情况）
+      // 页面已经在上面的 HTML 中渲染了
     }
-  ]
-}</pre>
-              
-              <h3 style="color:#8f63e9;margin-top:30px;">Usage Examples:</h3>
-              
-              <div style="background:#f5f5f5;padding:20px;border-radius:5px;margin:10px 0;">
-                <h4 style="color:#333;margin-top:0;">JavaScript (Fetch API):</h4>
-                <pre style="background:#282c34;color:#abb2bf;padding:15px;border-radius:5px;overflow-x:auto;font-size:13px;line-height:1.6;">fetch('${window.location.origin}/issues.json?format=json')
-  .then(response => response.text())
-  .then(jsonText => {
-    const data = JSON.parse(jsonText);
-    console.log('Issues:', data);
-    
-    // 处理数据
-    data.issues.forEach(issue => {
-      console.log(issue.title, issue.author.login);
-    });
-  });</pre>
-              </div>
-              
-              <div style="background:#f5f5f5;padding:20px;border-radius:5px;margin:10px 0;">
-                <h4 style="color:#333;margin-top:0;">JavaScript (async/await):</h4>
-                <pre style="background:#282c34;color:#abb2bf;padding:15px;border-radius:5px;overflow-x:auto;font-size:13px;line-height:1.6;">async function fetchIssues() {
-  const response = await fetch('${window.location.origin}/issues.json?format=json');
-  const jsonText = await response.text();
-  const data = JSON.parse(jsonText);
-  
-  console.log('Repository:', data.repository);
-  console.log('Total Issues:', data.totalIssues);
-  console.log('Issues:', data.issues);
-  
-  return data;
-}
-
-// 使用
-fetchIssues().then(data => {
-  // 处理 issues 数据
-});</pre>
-              </div>
-
-              <div style="background:#f5f5f5;padding:20px;border-radius:5px;margin:10px 0;">
-                <h4 style="color:#333;margin-top:0;">TypeScript:</h4>
-                <pre style="background:#282c34;color:#abb2bf;padding:15px;border-radius:5px;overflow-x:auto;font-size:13px;line-height:1.6;">interface GwitterIssue {
-  id: string;
-  number: number;
-  title: string;
-  createdAt: string;
-  author: {
-    login: string;
-    avatarUrl: string;
-    url: string;
-  };
-  reactions: {
-    totalCount: number;
-    userReacted: boolean;
-    heartCount: number;
-  };
-  comments: number;
-  label: {
-    name: string;
-    color: string;
-  };
-  url: string;
-}
-
-interface GwitterResponse {
-  repository: string;
-  exportedAt: string;
-  totalIssues: number;
-  issues: GwitterIssue[];
-}
-
-async function getGwitterIssues(): Promise<GwitterResponse> {
-  const response = await fetch('${window.location.origin}/issues.json?format=json');
-  const jsonText = await response.text();
-  return JSON.parse(jsonText) as GwitterResponse;
-}
-
-// 使用
-const data = await getGwitterIssues();
-console.log(\`Loaded \${data.totalIssues} issues from \${data.repository}\`);</pre>
-              </div>
-
-              <div style="background:#fff9c6;padding:15px;border-radius:5px;margin:10px 0;border-left:4px solid #ffc107;">
-                <h4 style="color:#333;margin-top:0;">⚠️ CORS 注意事项:</h4>
-                <ul style="line-height:1.8;color:#555;">
-                  <li>如果遇到跨域问题，请确保两个项目在同一个域名下</li>
-                  <li>或配置服务器添加 CORS 头</li>
-                  <li>或使用代理服务器中转请求</li>
-                </ul>
-              </div>
-            </div>
-            
-            <h3 style="color:#8f63e9;margin-top:40px;">Field Descriptions:</h3>
-            <div style="background:#f5f5f5;padding:20px;border-radius:5px;margin:20px 0;">
-              <table style="width:100%;border-collapse:collapse;">
-                <tr style="background:#fff;color:#333;">
-                  <th style="padding:12px;text-align:left;border-bottom:2px solid #ddd;">字段</th>
-                  <th style="padding:12px;text-align:left;border-bottom:2px solid #ddd;">类型</th>
-                  <th style="padding:12px;text-align:left;border-bottom:2px solid #ddd;">说明</th>
-                </tr>
-                <tr style="background:#f9f9f9;">
-                  <td style="padding:12px;border-bottom:1px solid #eee;"><code>repository</code></td>
-                  <td style="padding:12px;border-bottom:1px solid #eee;">string</td>
-                  <td style="padding:12px;border-bottom:1px solid #eee;">仓库地址（owner/repo）</td>
-                </tr>
-                <tr style="background:#fff;">
-                  <td style="padding:12px;border-bottom:1px solid #eee;"><code>exportedAt</code></td>
-                  <td style="padding:12px;border-bottom:1px solid #eee;">string (ISO 8601)</td>
-                  <td style="padding:12px;border-bottom:1px solid #eee;">导出时间（ISO 格式）</td>
-                </tr>
-                <tr style="background:#f9f9f9;">
-                  <td style="padding:12px;border-bottom:1px solid #eee;"><code>totalIssues</code></td>
-                  <td style="padding:12px;border-bottom:1px solid #eee;">number</td>
-                  <td style="padding:12px;border-bottom:1px solid #eee;">Issues 总数</td>
-                </tr>
-                <tr style="background:#fff;">
-                  <td style="padding:12px;border-bottom:1px solid #eee;"><code>issues[].id</code></td>
-                  <td style="padding:12px;border-bottom:1px solid #eee;">string</td>
-                  <td style="padding:12px;border-bottom:1px solid #eee;">Issue 唯一标识符</td>
-                </tr>
-                <tr style="background:#f9f9f9;">
-                  <td style="padding:12px;border-bottom:1px solid #eee;"><code>issues[].number</code></td>
-                  <td style="padding:12px;border-bottom:1px solid #eee;">number</td>
-                  <td style="padding:12px;border-bottom:1px solid #eee;">Issue 编号</td>
-                </tr>
-                <tr style="background:#fff;">
-                  <td style="padding:12px;border-bottom:1px solid #eee;"><code>issues[].title</code></td>
-                  <td style="padding:12px;border-bottom:1px solid #eee;">string</td>
-                  <td style="padding:12px;border-bottom:1px solid #eee;">Issue 标题</td>
-                </tr>
-                <tr style="background:#f9f9f9;">
-                  <td style="padding:12px;border-bottom:1px solid #eee;"><code>issues[].author</code></td>
-                  <td style="padding:12px;border-bottom:1px solid #eee;">object</td>
-                  <td style="padding:12px;border-bottom:1px solid #eee;">作者信息（包含 login, avatarUrl, url）</td>
-                </tr>
-                <tr style="background:#fff;">
-                  <td style="padding:12px;border-bottom:1px solid #eee;"><code>issues[].reactions</code></td>
-                  <td style="padding:12px;border-bottom:1px solid #eee;">object</td>
-                  <td style="padding:12px;border-bottom:1px solid #eee;">反应统计（totalCount, userReacted, heartCount）</td>
-                </tr>
-                <tr style="background:#f9f9f9;">
-                  <td style="padding:12px;border-bottom:1px solid #eee;"><code>issues[].comments</code></td>
-                  <td style="padding:12px;border-bottom:1px solid #eee;">number</td>
-                  <td style="padding:12px;border-bottom:1px solid #eee;">评论数量</td>
-                </tr>
-                <tr style="background:#fff;">
-                  <td style="padding:12px;border-bottom:1px solid #eee;"><code>issues[].label</code></td>
-                  <td style="padding:12px;border-bottom:1px solid #eee;">object</td>
-                  <td style="padding:12px;border-bottom:1px solid #eee;">标签信息（name, color）</td>
-                </tr>
-                <tr style="background:#f9f9f9;">
-                  <td style="padding:12px;border-bottom:1px solid #eee;"><code>issues[].url</code></td>
-                  <td style="padding:12px;border-bottom:1px solid #eee;">string</td>
-                  <td style="padding:12px;border-bottom:1px solid #eee;">Issue 在 GitHub 的链接</td>
-                </tr>
-              </table>
-            </div>
-            
-            <div style="margin-top:40px;padding:20px;background:#e8f5e9;color:#fff;border-radius:5px;">
-              <strong>💡 提示：</strong>
-              <ul style="line-height:1.8;margin-top:10px;">
-                <li>首次使用前，请先打开 Gwitter 主页加载 Issues 数据</li>
-                <li>点击工具栏的 "JSON" 按钮手动触发数据更新</li>
-                <li>数据会自动保存到浏览器 localStorage</li>
-                <li>下次访问 API 接口时会直接返回最新的数据</li>
-              </ul>
-            </div>
-            
-            <div style="text-align:center;margin-top:40px;padding:20px;border-top:2px solid #e0e0e0;">
-              <a href="/" style="display:inline-block;padding:10px 30px;background:#8f63e9;color:#fff;text-decoration:none;border-radius:5px;font-size:16px;">← 返回 Gwitter</a>
-            </div>
-          </div>
-        `;
-      }
-    })();
   </script>
 </body>
 </html>
