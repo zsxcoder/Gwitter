@@ -127,45 +127,7 @@ const App = () => {
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const lastScrollYRef = useRef(0);
 
-  // 导出 Issues 为 JSON（在控制台输出）
-  const handleExport = () => {
-    try {
-      const exportData = {
-        repository: `${currentRepo.owner}/${currentRepo.repo}`,
-        exportedAt: new Date().toISOString(),
-        totalIssues: issues.length,
-        issues: issues.map(issue => ({
-          id: issue.id,
-          number: issue.number,
-          title: issue.title,
-          createdAt: issue.createdAt,
-          author: issue.author,
-          reactions: issue.reactions,
-          comments: issue.comments,
-          label: issue.label,
-          url: issue.url,
-        })),
-      };
 
-      // 在控制台输出 JSON
-      console.log('=== Issues JSON Output ===');
-      console.log(JSON.stringify(exportData, null, 2));
-      console.log('=== End of JSON Output ===');
-
-      // 将数据暴露到全局，方便其他项目调用
-      if (typeof window !== 'undefined') {
-        (window as any).gwitterIssuesData = exportData;
-        // 同时保存到 localStorage，供 API 端点使用
-        localStorage.setItem('gwitter_issues_data', JSON.stringify(exportData));
-        console.log('✅ Issues 数据已暴露到 window.gwitterIssuesData 并保存到 localStorage');
-      }
-
-      console.log('Issues exported successfully:', exportData);
-    } catch (error) {
-      console.error('Export failed:', error);
-      alert('导出失败，请重试');
-    }
-  };
 
   useEffect(() => {
     isLoadingRef.current = isLoading;
@@ -440,27 +402,6 @@ const App = () => {
     if (rawIssuesData.length > 0) {
       const transformedIssues = transformIssues(rawIssuesData, user?.login);
       setIssues(transformedIssues);
-      
-      // 自动保存到 localStorage，供 API 端点使用
-      if (typeof window !== 'undefined') {
-        const exportData = {
-          repository: `${currentRepo.owner}/${currentRepo.repo}`,
-          exportedAt: new Date().toISOString(),
-          totalIssues: transformedIssues.length,
-          issues: transformedIssues.map(issue => ({
-            id: issue.id,
-            number: issue.number,
-            title: issue.title,
-            createdAt: issue.createdAt,
-            author: issue.author,
-            reactions: issue.reactions,
-            comments: issue.comments,
-            label: issue.label,
-            url: issue.url,
-          })),
-        };
-        localStorage.setItem('gwitter_issues_data', JSON.stringify(exportData));
-      }
     }
   }, [user?.login, rawIssuesData, currentRepo]);
 
@@ -480,7 +421,6 @@ const App = () => {
         currentRepo={currentRepo}
         isLoading={isRepoLoading}
         error={repoError}
-        onExport={issues.length > 0 ? handleExport : undefined}
       />
       {config.app.enableAbout && (
         <About owner={currentRepo.owner} repo={currentRepo.repo} />

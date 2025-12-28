@@ -152,7 +152,7 @@ const UserAvatar = styled.img`
 const UserName = styled.span`
   font-size: 12px;
   font-weight: 500;
-  color: var(--text);
+  color: #14171a;
 `;
 
 const LoadingSpinner = styled.div`
@@ -179,31 +179,7 @@ const LoadingContainer = styled.div`
   gap: 8px;
   border-radius: 16px;
   font-size: 12px;
-  color: var(--text-secondary);
-`;
-
-const ExportButton = styled.button`
-  background: var(--card);
-  color: var(--text);
-  border: 1px solid var(--border);
-  padding: 6px 12px;
-  border-radius: 16px;
-  cursor: pointer;
-  font-size: 12px;
-  font-weight: 500;
-  transition: all 0.2s;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-
-  &:hover {
-    background: var(--hover);
-  }
-
-  &:disabled {
-    cursor: not-allowed;
-    opacity: 0.6;
-  }
+  color: #657786;
 `;
 
 interface ToolbarProps {
@@ -211,7 +187,6 @@ interface ToolbarProps {
   currentRepo?: { owner: string; repo: string };
   isLoading?: boolean;
   error?: string | null;
-  onExport?: () => void;
 }
 
 const Toolbar = ({
@@ -219,7 +194,6 @@ const Toolbar = ({
   currentRepo,
   isLoading: repoLoading = false,
   error,
-  onExport,
 }: ToolbarProps) => {
   const { t } = useTranslation();
   const { isAuthenticated, user, login, logout, isLoading } = useAuth();
@@ -339,18 +313,7 @@ const Toolbar = ({
           </RepoInputContainer>
         )}
       </LeftSection>
-      <RightSection>
-        {renderAuthSection()}
-        {onExport && (
-          <ExportButton onClick={onExport} title="Export issues to JSON console">
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
-              <path d="M8 0L3 5h3v5H2v5h4v5h3l-5 5h-1l-5-5h4V10H8V5h3L8 0z" />
-              <path d="M14 3H9v1h5v10H9v1h5c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1zM0 12l3-3h-1l-2 2V7H0v4h3v4l2 2h1l-3-3z" />
-            </svg>
-            JSON
-          </ExportButton>
-        )}
-      </RightSection>
+      <RightSection>{renderAuthSection()}</RightSection>
     </ToolbarContainer>
   );
 };

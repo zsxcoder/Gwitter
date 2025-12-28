@@ -226,8 +226,19 @@ const About = ({ owner, repo }: AboutProps) => {
   const { t } = useTranslation();
 
   useEffect(() => {
-    let makeMePretty = document.querySelector('.collapse');
-    new Collapse(makeMePretty, { accordion: true }).init();
+    // 延迟执行以确保DOM已经更新
+    const timeoutId = setTimeout(() => {
+      const collapseElement = document.querySelector('.collapse');
+      if (collapseElement) {
+        // 创建新的collapse实例
+        new Collapse(collapseElement, { accordion: true }).init();
+      }
+    }, 100);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [owner, repo]);
 
     const fetchLabels = async () => {
       try {
