@@ -240,6 +240,7 @@ const About = ({ owner, repo }: AboutProps) => {
     };
   }, [owner, repo]);
 
+  useEffect(() => {
     const fetchLabels = async () => {
       try {
         const response = await api.post(
